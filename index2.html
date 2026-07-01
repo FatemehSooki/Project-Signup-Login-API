@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        *,
+        *::before,
+        *::after {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle at top, #6c5ce7, #1e1e2f);
+            padding: 20px;
+            font-family: system-ui, sans-serif;
+            /* overflow: hidden; */
+        }
+
+
+        .formHeader {
+
+            text-align: center;
+
+            margin-bottom: 15px;
+        }
+
+        .formHeader h1 {
+
+            color: white;
+
+            font-size: 32px;
+
+            font-weight: 700;
+
+            letter-spacing: 1px;
+
+            margin-bottom: 8px;
+        }
+
+        .formHeader p {
+
+            color: rgba(255, 255, 255, .7);
+
+            font-size: 14px;
+
+            letter-spacing: .5px;
+        }
+
+        .loginForm {
+            width: 100%;
+            max-width: 420px;
+            padding: 30px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, .08);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, .15);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, .35);
+        }
+
+        .loginForm>input[type=text],
+        .loginForm>input[type=password] {
+            height: 48px;
+            border: none;
+            outline: none;
+            border-radius: 10px;
+            padding: 0 15px;
+            background: rgba(255, 255, 255, .12);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, .15);
+            transition: .25s;
+        }
+
+        .loginForm>input::placeholder {
+            color: rgba(255, 255, 255, .55);
+        }
+
+        .loginForm>input:focus {
+            border-color: #a29bfe;
+            box-shadow: 0 0 0 3px rgba(162, 155, 254, .25);
+        }
+
+        .loginForm>button {
+            height: 48px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #6c5ce7, #8f7dff);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: .25s;
+        }
+
+        .loginForm>button:hover {
+            transform: translateY(-2px);
+        }
+
+        .loginForm>a {
+            color: #ddd;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .loginForm>a:hover {
+            color: white;
+        }
+
+        label {
+            color: white;
+        }
+
+        #check {
+            width: 18px;
+            height: 18px;
+        }
+
+
+        .popup {
+
+            position: fixed;
+            inset: 0;
+
+            display: none;
+
+            justify-content: center;
+            align-items: center;
+
+            background: rgba(0, 0, 0, .65);
+
+            backdrop-filter: blur(6px);
+
+            z-index: 999;
+        }
+
+        .popupBox {
+
+            width: 420px;
+
+            padding: 30px;
+
+            border-radius: 18px;
+
+            background: #23233a;
+
+            box-shadow: 0 25px 60px rgba(0, 0, 0, .45);
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 15px;
+
+            animation: popup .25s ease;
+        }
+
+        .popupBox h2 {
+
+            color: white;
+
+            text-align: center;
+
+            margin-bottom: 10px;
+        }
+
+        .popupBox input {
+
+            height: 48px;
+
+            border: none;
+
+            outline: none;
+
+            border-radius: 10px;
+
+            padding: 0 15px;
+
+            background: #2f2f4a;
+
+            color: white;
+
+            border: 1px solid #3e3e62;
+
+            transition: .25s;
+        }
+
+        .popupBox input:focus {
+
+            border-color: #8f7dff;
+
+            box-shadow: 0 0 0 3px rgba(143, 125, 255, .25);
+        }
+
+        .popupBtns {
+
+            display: flex;
+
+            gap: 15px;
+
+            margin-top: 10px;
+        }
+
+        .popupBtns button {
+
+            flex: 1;
+
+            height: 46px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            cursor: pointer;
+
+            color: white;
+
+            font-weight: 600;
+
+            transition: .25s;
+        }
+
+        #saveEdit {
+
+            background: #6c5ce7;
+        }
+
+        #saveEdit:hover {
+
+            background: #5a49da;
+        }
+
+        #cancelEdit {
+
+            background: #e74c3c;
+        }
+
+        #cancelEdit:hover {
+
+            background: #cf3f31;
+        }
+
+        @keyframes popup {
+
+            from {
+
+                opacity: 0;
+
+                transform: scale(.9);
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform: scale(1);
+            }
+        }
+
+        .dashboard {
+
+            width: 480px;
+
+            background: rgba(255, 255, 255, .08);
+
+            border: 1px solid rgba(255, 255, 255, .15);
+
+            backdrop-filter: blur(12px);
+
+            border-radius: 20px;
+
+            padding: 35px;
+
+            box-shadow: 0 20px 50px rgba(0, 0, 0, .35);
+
+            color: white;
+
+        }
+
+        .dashboard h1 {
+
+            text-align: center;
+
+            margin-bottom: 25px;
+
+            font-size: 30px;
+
+        }
+
+        .profilePic {
+
+            width: 140px;
+
+            height: 140px;
+
+            margin: auto;
+
+            border-radius: 50%;
+
+            overflow: hidden;
+
+            border: 4px solid #8f7dff;
+
+            margin-bottom: 30px;
+        }
+
+        .profilePic img {
+
+            width: 100%;
+
+            height: 100%;
+
+            object-fit: cover;
+        }
+
+        .info {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 15px;
+
+            margin-bottom: 35px;
+        }
+
+        .row {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            padding: 12px 16px;
+
+            border-radius: 10px;
+
+            background: rgba(255, 255, 255, .06);
+        }
+
+        .row span {
+
+            color: #aaa;
+
+            font-weight: 600;
+        }
+
+        .row p {
+
+            color: white;
+        }
+
+        .actions {
+
+            display: flex;
+
+            gap: 15px;
+        }
+
+        .actions button {
+
+            flex: 1;
+
+            height: 48px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            color: white;
+
+            cursor: pointer;
+
+            transition: .25s;
+
+            font-weight: 600;
+        }
+
+        .actions button:nth-child(1) {
+
+            background: #6c5ce7;
+        }
+
+        .actions button:nth-child(2) {
+
+            background: #0984e3;
+        }
+
+        .actions button:nth-child(3) {
+
+            background: #d63031;
+        }
+
+        .actions button:hover {
+
+            transform: translateY(-2px);
+        }
+
+        .dashboardHeader {
+
+            text-align: center;
+
+            margin-bottom: 30px;
+        }
+
+        .status {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            padding: 8px 18px;
+
+            border-radius: 999px;
+
+            background: rgba(34, 197, 94, .15);
+
+            border: 1px solid rgba(34, 197, 94, .35);
+
+            color: #8df0ab;
+
+            font-size: 14px;
+
+            font-weight: 600;
+        }
+
+
+        .developer {
+            position: absolute;
+            right: 40px;
+            bottom: 35px;
+            z-index: 999;
+        }
+
+        .developer-card {
+
+            width: 170px;
+            height: 170px;
+
+            position: relative;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Glow */
+
+        .glow {
+
+            position: absolute;
+            inset: 0;
+
+            border-radius: 50%;
+
+            background: rgba(99, 102, 241, .18);
+
+            filter: blur(35px);
+
+            transition: .6s;
+        }
+
+        /* Orbit */
+
+        .orbit {
+
+            position: absolute;
+
+            inset: 0;
+
+            border-radius: 50%;
+
+            border: 1px solid rgba(99, 102, 241, .25);
+
+            transition: .5s;
+        }
+
+        /* Profile */
+
+        .profile {
+
+            width: 110px;
+            height: 110px;
+
+            border-radius: 50%;
+
+            overflow: hidden;
+
+            border: 3px solid #6366f1;
+
+            box-shadow:
+                0 0 20px rgba(99, 102, 241, .4);
+
+            transition: .5s;
+
+            z-index: 5;
+        }
+
+        .profile img {
+
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+
+            transition: .5s;
+        }
+
+        /* Social Icons */
+
+        .orbit a {
+
+            width: 42px;
+            height: 42px;
+
+            border-radius: 50%;
+
+            position: absolute;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            background: rgba(20, 20, 40, .95);
+
+            backdrop-filter: blur(15px);
+
+            border: 1px solid rgba(255, 255, 255, .12);
+
+            color: white;
+
+            font-size: 20px;
+
+            text-decoration: none;
+
+            opacity: 0;
+
+            transform: scale(.2);
+
+            transition: .45s;
+        }
+
+        .github {
+
+            top: -20px;
+            left: 50%;
+
+            transform: translateX(-50%) scale(.2);
+        }
+
+        .linkedin {
+
+            right: -20px;
+            top: 50%;
+
+            transform: translateY(-50%) scale(.2);
+        }
+
+        .instagram {
+
+            left: 50%;
+            bottom: -20px;
+
+            transform: translateX(-50%) scale(.2);
+        }
+
+        .github:hover {
+
+            color: #a5b4fc;
+        }
+
+        .linkedin:hover {
+
+            color: #38bdf8;
+        }
+
+        .instagram:hover {
+
+            color: #ec4899;
+        }
+
+
+        .developer-text {
+
+            position: absolute;
+
+            top: -40px;
+
+            text-align: center;
+
+            opacity: 0;
+
+            transform: translateY(10px);
+
+            transition: .4s;
+        }
+
+        .developer-text span {
+
+            color: #a5b4fc;
+
+            text-transform: uppercase;
+
+            letter-spacing: 4px;
+
+            font-size: 10px;
+        }
+
+        .developer-text h3 {
+
+            margin-top: 6px;
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: 600;
+
+            white-space: nowrap;
+        }
+
+
+        .developer-card:hover .orbit {
+            animation: orbitRotate 8s linear infinite;
+        }
+
+        .developer-card:hover .profile {
+            transform: scale(1.12);
+        }
+
+        .developer-card:hover .profile img {
+            transform: scale(1.08);
+        }
+
+        .developer-card:hover .glow {
+            transform: scale(1.3);
+            background: rgba(99, 102, 241, .3);
+        }
+
+        .developer-card:hover .orbit a {
+            opacity: 1;
+        }
+
+        .developer-card:hover .github {
+            transform: translateX(-50%) scale(1);
+        }
+
+        .developer-card:hover .linkedin {
+            transform: translateY(-50%) scale(1);
+        }
+
+        .developer-card:hover .instagram {
+            transform: translateX(-50%) scale(1);
+        }
+
+        .developer-card:hover .developer-text {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+
+        @keyframes orbitRotate {
+
+            from {
+
+                transform: rotate(0deg);
+            }
+
+            to {
+
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="loginForm">
+        <div class="formHeader">
+
+            <h1>API Login System</h1>
+
+            <p>MockAPI • Cookies • CRUD Operations</p>
+
+        </div>
+        <input class="_form" type="text" placeholder="Email or Phone Number">
+        <input class="_form" type="password" placeholder="Password">
+        <button>Login</button>
+        <label for="check">Remember me!</label>
+        <input id="check" type="checkbox">
+        <a href="index1.html">First time here? signup!</a>
+    </div>
+
+
+    <div class="popup">
+
+        <div class="popupBox">
+
+            <h2>Edit Profile</h2>
+
+            <input type="text" id="editUsername">
+
+            <input type="email" id="editEmail">
+
+            <input type="tel" id="editPhone">
+
+            <input type="hidden">
+
+            <div class="popupBtns">
+
+                <button id="saveEdit">Save Changes</button>
+
+                <button id="cancelEdit">Cancel</button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <footer class="developer">
+
+        <div class="developer-card">
+
+            <div class="glow"></div>
+
+            <div class="orbit">
+
+                <a href="https://github.com/FatemehSooki" target="_blank" class="github">
+                    <i class="bi bi-github"></i>
+                </a>
+
+                <a href="https://www.linkedin.com/in/fatemeh-sooki-197060396" target="_blank" class="linkedin">
+                    <i class="bi bi-linkedin"></i>
+                </a>
+
+                <a href="https://www.instagram.com/fatemeh_sooki" target="_blank" class="instagram">
+                    <i class="bi bi-instagram"></i>
+                </a>
+
+            </div>
+
+            <div class="developer-text">
+
+                <span>Developed By</span>
+
+                <h3>Fatemeh Sooki</h3>
+
+            </div>
+
+            <div class="profile">
+
+                <img src="5823194412169760388.jpg" alt="Developer">
+
+            </div>
+
+
+        </div>
+
+    </footer>
+</body>
+<script>
+    /*! js-cookie v3.0.8 | MIT */
+    !function (e, t) { "object" == typeof exports && "undefined" != typeof module ? module.exports = t() : "function" == typeof define && define.amd ? define(t) : (e = "undefined" != typeof globalThis ? globalThis : e || self, function () { var n = e.Cookies, o = e.Cookies = t(); o.noConflict = function () { return e.Cookies = n, o } }()) }(this, (function () { "use strict"; function e(e) { for (var t = 1; t < arguments.length; t++) { var n = arguments[t]; for (var o in n) "__proto__" !== o && (e[o] = n[o]) } return e } var t = function t(n, o) { function r(t, r, i) { if ("undefined" != typeof document) { "number" == typeof (i = e({}, o, i)).expires && (i.expires = new Date(Date.now() + 864e5 * i.expires)), i.expires && (i.expires = i.expires.toUTCString()), t = encodeURIComponent(t).replace(/%(2[346B]|5E|60|7C)/g, decodeURIComponent).replace(/[()]/g, escape); var c = ""; for (var u in i) i[u] && (c += "; " + u, !0 !== i[u] && (c += "=" + i[u].split(";")[0])); return document.cookie = t + "=" + n.write(r, t) + c } } return Object.create({ set: r, get: function (e) { if ("undefined" != typeof document && (!arguments.length || e)) { for (var t = document.cookie ? document.cookie.split("; ") : [], o = {}, r = 0; r < t.length; r++) { var i = t[r].split("="), c = i.slice(1).join("="); try { var u = decodeURIComponent(i[0]); if (u in o || (o[u] = n.read(c, u)), e === u) break } catch (e) { } } return e ? o[e] : o } }, remove: function (t, n) { r(t, "", e({}, n, { expires: -1 })) }, withAttributes: function (n) { return t(this.converter, e({}, this.attributes, n)) }, withConverter: function (n) { return t(e({}, this.converter, n), this.attributes) } }, { attributes: { value: Object.freeze(o) }, converter: { value: Object.freeze(n) } }) }({ read: function (e) { return '"' === e[0] && (e = e.slice(1, -1)), e.replace(/(%[\dA-F]{2})+/gi, decodeURIComponent) }, write: function (e) { return encodeURIComponent(e).replace(/%(2[346BF]|3[AC-F]|40|5[BDE]|60|7[BCD])/g, decodeURIComponent) } }, { path: "/" }); return t }));
+
+</script>
+<script>
+    let btn2 = document.querySelector('button')
+    let inp = document.querySelectorAll('._form')
+    let loginForm = document.querySelector('.loginForm')
+    const myToken = 'https://6a3f04049b6d371e83809332.mockapi.io/users'
+    let pop = document.querySelector('.popup')
+    let saveEdit = document.querySelector('#saveEdit')
+    let cancelEdit = document.querySelector('#cancelEdit')
+    let popInp = document.querySelectorAll('.popupBox>input')
+
+    // checking remember me//
+    let cookiEmail = Cookies.get('Email')
+    let cookiPassword = Cookies.get('Password')
+
+    if (cookiEmail != undefined && cookiPassword != undefined) {
+
+        inp[0].value = cookiEmail
+        inp[1].value = cookiPassword
+
+        const user = {
+            Email: cookiEmail,
+            Password: cookiPassword
+        };
+        entering(user)
+
+
+
+    }
+    // checking remember me//
+
+
+    btn2.addEventListener('click', () => {
+        const user = {
+            Email: inp[0].value,
+            Password: inp[1].value
+        };
+        entering(user)
+    })
+
+    function entering(user) {
+        const url = new URL(myToken);
+
+        const isPhone = /^\d+$/.test(user.Email.trim());
+
+        if (isPhone) {
+            url.searchParams.append('Phone', user.Email.trim());
+        } else {
+            url.searchParams.append('Email', user.Email.trim());
+        }
+
+        url.searchParams.append('Password', user.Password.trim());
+
+
+        fetch(url, {
+            method: 'GET',
+            headers: { 'content-type': 'application/json' },
+        }).then(res => {
+            if (res.ok) {
+                return res.json();
+            }
+        }).then(data => {
+            const findUser = data.find((u) => {
+                return u.Password === user.Password
+
+            })
+
+            if (!findUser) {
+                alert('Email/Phone number or Password is wrong')
+                return
+            }
+
+            if (isPhone) {
+                if (findUser.Phone !== user.Email) {
+                    alert('Email/Phone number or Password is wrong')
+                    return
+                }
+
+            } else {
+                if (findUser.Email !== user.Email) {
+                    alert('Email/Phone number or Password is wrong')
+                    return
+                }
+            }
+
+            if (document.getElementById('check').checked) {
+                Cookies.set('Email', user.Email, { expires: 333 })
+                Cookies.set('Password', user.Password, { expires: 333 })
+            }
+            loginForm.style.display = 'none'
+
+            let tbl = document.createElement('table')
+            tbl.innerHTML = `
+<div class="dashboard">
+     <div class="dashboardHeader">
+        <span class="status">
+            🟢 Logged In
+        </span>
+
+    </div>
+
+    <h1>Welcome ${findUser.UserName} 👋</h1>
+
+    <div class="profilePic">
+
+        <img src="${findUser.Photo}" alt="">
+
+    </div>
+
+    <div class="info">
+
+        <div class="row">
+            <span>ID</span>
+            <p>${findUser.id}</p>
+        </div>
+
+        <div class="row">
+            <span>Username</span>
+            <p>${findUser.UserName}</p>
+        </div>
+
+        <div class="row">
+            <span>Email</span>
+            <p>${findUser.Email}</p>
+        </div>
+
+        <div class="row">
+            <span>Password</span>
+            <p>••••••••</p>
+        </div>
+
+        <div class="row">
+            <span>Phone</span>
+            <p>${findUser.Phone}</p>
+        </div>
+
+    </div>
+
+    <div class="actions">
+
+        <button onclick="logout(${findUser.id})">
+            Logout
+        </button>
+
+        <button onclick="editUser(${findUser.id})">
+            Edit
+        </button>
+
+        <button onclick="myDelete(${findUser.id})">
+            Delete
+        </button>
+
+    </div>
+
+</div>
+    `
+
+
+            document.body.appendChild(tbl)
+
+
+
+
+        }).catch(error => {
+            console.log(error);
+
+        })
+    }
+
+
+    function logout() {
+
+        Cookies.remove('Email')
+        Cookies.remove('Password')
+        location.reload()
+    }
+
+    function myDelete(i) {
+        if (confirm('Are you sure you want to delete this account?')) {
+            fetch(myToken + '/' + i, {
+                method: 'DELETE',
+            }).then(res => {
+                if (res.ok) {
+                    return res.json();
+                }
+
+            }).then(task => {
+                logout()
+            }).catch(error => {
+                console.log(error);
+                alert("Something went wrong.");
+            })
+        }
+
+    }
+
+
+    async function editUser(i) {
+        let para = await getUser(myToken + '/' + i)
+        pop.style.display = 'flex'
+
+        popInp[0].value = para.UserName
+        popInp[1].value = para.Email
+        popInp[2].value = para.Phone
+        popInp[3].value = para.id
+
+
+
+
+        cancelEdit.addEventListener('click', () => {
+            pop.style.display = 'none'
+        })
+    }
+
+    async function getUser(myToken) {
+
+        let x = await fetch(myToken)
+        if (x.ok) {
+            let data = await x.json()
+            return data
+        }
+    }
+
+
+    saveEdit.addEventListener('click', (i) => {
+        let editedUser = {
+            UserName: popInp[0].value,
+            Email: popInp[1].value,
+            Phone: popInp[2].value,
+            id: popInp[3].value
+        }
+
+        console.log(editedUser.id);
+
+        fetch(myToken + '/' + editedUser.id, {
+            method: 'PUT', // or PATCH
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify(editedUser)
+        }).then(res => {
+            if (res.ok) {
+                return res.json();
+            }
+            // handle error
+        }).then(task => {
+            console.log(task);
+            pop.style.display = 'none'
+            logout()
+
+        }).catch(error => {
+            console.log(error);
+
+        })
+    })
+</script>
+
+</html>
